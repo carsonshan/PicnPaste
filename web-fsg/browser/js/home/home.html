@@ -1,0 +1,14 @@
+<section id="home">
+
+    <!-- Subscribe or Unsubscribe to Push Notifications -->
+    <h1> Subscribe to Push Notifications </h1>
+    <button id="subscribeButton" ng-click="subscribeButtonFunction()" ng-show="!isSubscribed" disabled>{{subscribedOrUnsubscribed}}</button>
+
+    <input type="file" capture="camera" accept="image/*" id="cameraInput">
+    <!-- <fullstack-logo></fullstack-logo> -->
+    <button id="sendToChrome" ng-show="picTaken" ng-click="sendToChrome()">Send to Chrome</button>
+    <img id="yourimage">
+
+    <rando-greeting></rando-greeting>
+
+</section>

@@ -1,0 +1,13 @@
+<section id="allImages">
+    <h1>
+        Your Images:
+    </h1>
+    <!-- <carousel interval="2000"> -->
+        <!-- <slide ng-repeat="image in images"> -->
+        <div ng-repeat="image in images">
+            <h1 id="imageTitle"> {{ image.name }} </h1>
+            <img id="yourimage" height="300" ng-src="{{ image.image }}" />
+        </div>
+        <!-- </slide> -->
+    <!-- </carousel> -->
+</section>

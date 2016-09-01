@@ -1,0 +1,55 @@
+#home {
+  fullstack-logo {
+    padding-top: 30px;
+    width: 150px;
+    margin: 0 auto;
+  }
+  h1 {
+    margin-top: 40px;
+    text-align: center;
+  }
+}
+
+#cameraInput {
+        /*-webkit-appearance: none;*/
+        -webkit-border-radius: 20px;
+        background-color: orange;
+        font-family: inherit;
+        display: block;
+        font-size: 20px;
+        margin: auto;
+        padding: 5px;
+        height: 100px;
+        box-sizing: border-box;
+
+}
+
+#sendToChrome {
+        /*-webkit-appearance: none;*/
+        -webkit-border-radius: 20px;
+        background-color: pink;
+        font-family: inherit;
+        display: block;
+        font-size: 20px;
+        margin: auto;
+        height: 50px;
+
+}
+
+#yourimage {
+    /*width:100%;*/
+    display: block;
+    margin: auto;
+}
+
+#imageTitle {
+    /*width:100%;*/
+    display: block;
+    margin: auto;
+}
+
+#subscribeButton {
+    display: block;
+    margin: auto;
+    padding: 15px;
+}

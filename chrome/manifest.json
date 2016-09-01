@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+
+  "name": "Picture Paste Plugin",
+  "description": "This extension will allow you to take pictures on your phone and paste them into google docs",
+  "version": "1.0",
+
+  "browser_action": {
+   "default_icon": "icons/bar_icon_camera.png",
+   "default_popup": "popup.html",
+   "default_title": "Your Images will appear here!!"
+  },
+  "permissions": [
+   "activeTab",
+   "clipboardRead",
+   "clipboardWrite",
+   "activeTab",
+   "contextMenus",
+   "gcm",
+   "storage",
+   "background"
+   ],
+  // "background": {
+  //    "scripts": [
+  //       "popup.js",
+  //       "thirdParty/jquery-3.1.0.min.js"
+  //    ]
+     // "persistent": false;
+  // },
+  "icons": {
+    "16": "icons/contextMenu_16.png"
+    // ,
+    // "48": "icons/contextMenu_16.png"
+    // ,
+    // "128": "icons/contextMenu_16.png"
+  },
+  "gcm_sender_id": "173857227663"
+}

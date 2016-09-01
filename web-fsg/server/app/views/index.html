@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/" />
+    <title>Fullstack Academy Generated Application</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Firebase -->
+   <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyB4QcbddSWGW1z1CbMVqHRW2cqZxv-g2Vs",
+        authDomain: "picnpaste-142000.firebaseapp.com",
+        databaseURL: "https://picnpaste-142000.firebaseio.com",
+        storageBucket: "picnpaste-142000.appspot.com",
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <!-- Jquery Scripts -->
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+
+    <!-- Angular and the rest -->
+    <script src="/lodash/index.js"></script>
+    <script src="/angular/angular.js"></script>
+    <script src="/angular-animate/angular-animate.js"></script>
+    <script src="/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/angular-ui-bootstrap/ui-bootstrap.js"></script>
+    <script src="/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/socket.io-client/socket.io.js"></script>
+    <script src="/main.js"></script>
+</head>
+<body ng-app="PicnPasteApp">
+    <navbar></navbar>
+    <div id="main" ui-view></div>
+    <script src="/serviceWorkers.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+NOTES
+
+*****DEVELOPER MODE*****
++ Include a 'DEV MODE' tick box!!!
+    + Once selected, lets users copy and paste the dataURL
+
+*****VIDEO MODE*****
+Maybe let them also capture video and turn it into a GIF that they can copy/paste into their notes.
+http://stackoverflow.com/questions/6336641/html5-camera-access-through-browser-in-ios
+
+            <input type="file" accept="video/*;capture=camcorder">
+            <input type="file" accept="audio/*;capture=microphone">
+            or (new method)
+
+            <device type="media" onchange="update(this.data)"></device>
+            <video autoplay></video>
+            <script>
+              function update(stream) {
+                document.querySelector('video').src = stream.url;
+              }
+            </script>
+            If it is not, probably will work on ios6, more detail can be found at get user media
+
+
+From GOOGLE DOCS:
+“PICTURE PASTE” Mobile App
+    Very Simple - It’s a chrome extension or maybe a desktop application (look up how those copy paste managers are created) that lets you take a picture with your phone and have it immediately paste into the document you are working in
+
+    Can work like this:
+        ON COMPUTER:
+            + Right-click where you want to paste a picture
+            + A loady-gif appears that waits for a picture
+        ON PHONE:
+            + Open up the app, take the picture and click ‘OK’ if you like it
+            + The app recognizes that it has a place to send the image
+            + Otherwise ERROR
+        ON COMPUTER:
+            + The desktop sees that an image is sent and copy-pastes it into place
+            + Maybe there is a confirmation here, but I don’t think there should be. It would just slow down the process.
+        Should work BOTH ways
+            + I.e, I should be able to take a picture on my phone first and have it wait for a response from the computer, or right click on the computer and have it wait for a response from the app.
+        Would be really great for note taking
+        Tali can test this out
+
+
+GCM
++ Only allows messages with size of 4000 bytes (.004mb)
++ Would only allow sending of very tiny images - so Not Applicable
++ HOWEVER, You can use GSM to push to the Chrome Extension a notification to let it know that there is new data to pull from the server
+
+Long-Polling
++ Long polling seems like what you might want here.
++ Pic n' Paste Extension opens up a connection with the server
+    + Everytime the server gets a new image, it is sent directly to the extension where it can be copy pasted.
+
+Permissions I will need:
+    + https://developer.chrome.com/extensions/declare_permissions
+    + 'clipboardRead'
+        + For Paste
+    + 'clipboardWrite'
+        + For COPY
+    + 'activeTab'
+        + Use the activeTab permission in order to be able to interact with a page after the user clicks on your page action.
+    + 'contextMenus'
+        + For access to Right Click menu bar
+    + 'gcm'
+        + For access to chrome.gcm if I decide not to use Firebase
+    +
+
+
+How it should work:
+    Two Paths:
+        + Phone First:
+            + Phone: User opens app, chooses to take a picture, and does so.
+                + Database recieved image and uses GCM to notify the extension that an image is waiting
+                    + A little '1' appears on the icon maybe
+            + PC: User clicks the little icon and sees his/her image for copy pasting, OR they can simply right click and select to paste and the most recent image (or all the most recent images?) will be pasted.
+        + Computer First:
+            + PC: Click chrome extension Icon OR Right click where you want to paste
+                + Loady Bar waits for an image to come in.
+            + Phone: Open up app, Take picture, Send to database
+                + Database recieves image, sends push notification to PICn'Paste Extension
+            + PC: Extension receives the notification, reaches out to server for the new image, and uploads to the screen
+                + If the user has click the extension icon, he can either click the image/button to copy the image to his/her clipboard, or they can right click, hover over the pic'n'paste option and paste it whereever they want
+                + If the user right clicked to start, then the image is just immediately pasted into the document
+    ALso:
+        The extension icon AND the right click menu should have options to paste most recent image AND a menu item to see all saved images to choose from.
+
+How Phone App should work:
+    Four screens
+        + Log In
+        + Sign Up
+        + Take Pictures
+        + Past Pictures
+    1. You can either take a new picture and send it to firebase immediately
+    2. You can send a picture you have taken previously
+
+    Thats it!
+
+How Extension should work:
+    List of most recent picture first (and maybe most recent 5 with the most recent one first)
+    Clicking a picture copies it
+    Right click at a point in the document and select 'paste' or something, and a loady bar will appear and wait for the most recent picture from your phone.
+
+
+Order of Tasks:
+    1. Chrome Extension:
+        + Using a Test Image, get it to copy the image to my clipboard by clicking on it
+        + Get PicnPaste in the context menu
+            + Get a paste option in there that pastes the most recent image
+            + Get a 'last 5 images' option that shows you last 5 images to paste. Selecting one immediately pastes it
+
+    2. Website:
+        + Get it to perform like a mobile app
+        + Get Camera working
+        + Get it to save images to firebase
+        + Get it to load images from firebase
+
+    3. Communcation
+        + Get web app to send a GCM notification to chrome extension
+        + Chrome extension should notify user that a new image is available
+        + Clicking the icon in browser should load all new images from firebase
+        + Right clicking
+
+
+README.md notes:
+    debugging:
+        + Right Click on Extension Icon
+        + Select Inspect Popup
+        + Background Stripts
+            Your script in your manifest.json runs in the background page:
+                "background": {
+                    "scripts": [
+                        "popup.js"
+                    ]
+                },
+
+            + so any messages or console.logs will be displayed in the background page's console.
+
+                1. Open the Extensions page.
+                2. Make sure that Developer mode is checked.
+                3. Under My Extension, click _generated_background_page.html to inspect it.
+                4. Click on the Console tab.
+
+
+
+

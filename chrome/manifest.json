@@ -7,18 +7,20 @@
 
   "browser_action": {
    "default_icon": "icons/bar_icon_camera.png",
-   "default_popup": "popup.html",
+   "default_popup": "signin.html",
    "default_title": "Your Images will appear here!!"
   },
   "permissions": [
-   "activeTab",
-   "clipboardRead",
-   "clipboardWrite",
-   "activeTab",
-   "contextMenus",
-   "gcm",
-   "storage",
-   "background"
+    "http://localhost:1337/",
+    "https://android.googleapis.com/",
+    "activeTab",
+    "clipboardRead",
+    "clipboardWrite",
+    "activeTab",
+    "contextMenus",
+    "gcm",
+    "storage",
+    "background"
    ],
   // "background": {
   //    "scripts": [
@@ -33,6 +35,6 @@
     // "48": "icons/contextMenu_16.png"
     // ,
     // "128": "icons/contextMenu_16.png"
-  },
-  "gcm_sender_id": "173857227663"
+  }
+  // "gcm_sender_id": "173857227663"
 }

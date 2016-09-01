@@ -1,3 +1,7 @@
+// ------------------------------ //
+// ----- PUSH NOTIFICATIONS ----- //
+// ------------------------------ //
+
 chrome.gcm.register(["173857227663"], function (registrationId) {
     if (chrome.runtime.lastError) {
         // When the registration fails, handle the error and retry the
@@ -31,26 +35,160 @@ chrome.runtime.onStartup.addListener(function() {
   });
 });
 
+//Add a listener for push notifications
+chrome.gcm.onMessage.addListener(function(message) {
+  // A message is an object with a data property that
+  // consists of key-value pairs.
+});
+
+
+
+// ---------------------------- //
+// --- Normal Functionality --- //
+// ---------------------------- //
+
+// After Dom Loads, add event listeners to buttons
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Does this even run?", document.getElementById("copyPicButton"))
+    // console.log(document, document.getElementById("copyPicButton"))
+    $( "#copyPicButton" ).on("click", copyPic);
+
+    // ----------------------------------------------- //
+    // ----- Service Worker / Push Notifications ----- //
+    // ----------------------------------------------- //
+
+    var reg;
+    var sub;
+    var isSubscribed = false;
+    var subscribeButton = document.querySelector('#subscribeButtonId');
+    if ('serviceWorker' in navigator) {
+      console.log('Service Worker is supported');
+      navigator.serviceWorker.register('sw.js').then(function() {
+        return navigator.serviceWorker.ready;
+      }).then(function(serviceWorkerRegistration) {
+        reg = serviceWorkerRegistration;
+        subscribeButton.disabled = false;
+        console.log('Service Worker is ready :^)', reg);
+      }).catch(function(error) {
+        console.log('Service Worker Error :^(', error);
+      });
+    }
+
+    subscribeButton.addEventListener('click', function() {
+      if (isSubscribed) {
+        unsubscribe();
+      } else {
+        subscribe();
+      }
+    });
+
+    function subscribe() {
+      reg.pushManager.subscribe({userVisibleOnly: true}).
+      then(function(pushSubscription){
+        sub = pushSubscription;
+        console.log('Subscribed! Endpoint:', sub.endpoint);
+        subscribeButton.textContent = 'Unsubscribe';
+        isSubscribed = true;
+      });
+    }
+
+    function unsubscribe() {
+      sub.unsubscribe().then(function(event) {
+        subscribeButton.textContent = 'Subscribe';
+        console.log('Unsubscribed!', event);
+        isSubscribed = false;
+      }).catch(function(error) {
+        console.log('Error unsubscribing', error);
+        subscribeButton.textContent = 'Subscribe';
+      });
+    }
+
+    // ----------------------------------------------- //
+    // ---------------- Ajax Requests ---------------- //
+    // ----------------------------------------------- //
+
+                        // // Substitute your own sender ID here. This is the project
+                        // // number you got from the Google Developers Console.
+                        // var senderId = "173857227663";
+
+                        // // Make the message ID unique across the lifetime of your app.
+                        // // One way to achieve this is to use the auto-increment counter
+                        // // that is persisted to local storage.
+
+                        // // Message ID is saved to and restored from local storage.
+                        // var messageId = 0;
+                        // chrome.storage.local.get("messageId", function(result) {
+                        //   if (chrome.runtime.lastError)
+                        //     return;
+                        //   messageId = parseInt(result["messageId"]);
+                        //   if (isNaN(messageId))
+                        //     messageId = 0;
+                        // });
+
+                        // // Sets up an event listener for send error.
+                        // chrome.gcm.onSendError.addListener(sendError);
+
+                        // // Returns a new ID to identify the message.
+                        // function getMessageId() {
+                        //   messageId++;
+                        //   chrome.storage.local.set({messageId: messageId});
+                        //   return messageId.toString();
+                        // }
+
+                        // function sendMessage() {
+                        //   var message = {
+                        //     messageId: getMessageId(),
+                        //     destinationId: senderId + "@gcm.googleapis.com",
+                        //     timeToLive: 86400,    // 1 day
+                        //     data: {
+                        //       "key1": "value1",
+                        //       "key2": "value2"
+                        //     }
+                        //   };
+                        //   chrome.gcm.send(message, function(messageId) {
+                        //     if (chrome.runtime.lastError) {
+                        //       // Some error occurred. Fail gracefully or try to send
+                        //       // again.
+                        //       return;
+                        //     }
+
+                        //     // The message has been accepted for delivery. If the message
+                        //     // can not reach the destination, onSendError event will be
+                        //     // fired.
+                        //   });
+                        // }
+
+                        // function sendError(error) {
+                        //   console.log("Message " + error.messageId +
+                        //       " failed to be sent: " + error.errorMessage);
+                        // }
+
+    var testGetRequest = document.querySelector('#testGetRequestButton')
+    // testGetRequest.addEventListener('click', sendMessage)
+    testGetRequest.addEventListener('click', function(data) {
+        // For more information on get/requests: https://developer.chrome.com/extensions/xhr
+        console.log("Buttons working", endpoint)
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost:1337/gmc/push", true)
+        // xhr.open("POST", "https://android.googleapis.com/gcm/send -d "{"registration_ids":["fxtnAsXv1gw:APA91bE4ovKEiASABU0Ia-rTHtDHbxU99BvCB0XhSug54vDc53jndVnnGRbDlCljVeDxoiWEYXO6aYXfk46W91pbrGNk8eyiKFDauksJi505zx-zH4U2c2-9OuBxOn7rGiqB8dZ13gBb"]}"", true);
+        xhttp.setRequestHeader("Content-type", "application/json");;
+        xhr.send();
+    });
+});
+
+
+
+
+// ------------- --- ------------- //
+// ------------- DOM ------------- //
+// ------------- --- ------------- //
+
 function copyPic () {
-
-
-    // //Get Input Element
-    // console.log("copyPic function");
-
-    //Give the text element focus
-    // $( "#picMain" ).focus();
-
-    //Select all content
-    // document.execCommand('SelectAll');
-
-    // //Copy Content
-    // document.execCommand("Copy");
 
     var picMain = document.getElementById("picMain")
     var imageData = getImageData(picMain)
     console.log(imageData);
     copyTextToClipboard(imageData)
-
 
 }
 
@@ -108,13 +246,6 @@ function copyTextToClipboard(text) {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("Does this even run?", document.getElementById("copyPicButton"))
-    // console.log(document, document.getElementById("copyPicButton"))
-    $( "#copyPicButton" ).on("click", copyPic);
-
-});
-
 // The onClicked callback function.
 function onClickHandler(info, tab) {
   if (info.menuItemId == "radio1" || info.menuItemId == "radio2") {
@@ -156,7 +287,6 @@ chrome.runtime.onInstalled.addListener(function() {
   console.log("parent child1 child2");
 
 
-
   // // Create some radio items.
   // chrome.contextMenus.create({"title": "Radio 1", "type": "radio",
   //                             "id": "radio1"});
@@ -181,56 +311,8 @@ chrome.runtime.onInstalled.addListener(function() {
   //   }
   // });
 
-
-// ----------------------------------------------- //
-// ----- Service Worker / Push Notifications ----- //
-// ----------------------------------------------- //
-
-var reg;
-var sub;
-var isSubscribed = false;
-var subscribeButton = document.querySelector('button');
-if ('serviceWorker' in navigator) {
-  console.log('Service Worker is supported');
-  navigator.serviceWorker.register('sw.js').then(function() {
-    return navigator.serviceWorker.ready;
-  }).then(function(serviceWorkerRegistration) {
-    reg = serviceWorkerRegistration;
-    subscribeButton.disabled = false;
-    console.log('Service Worker is ready :^)', reg);
-  }).catch(function(error) {
-    console.log('Service Worker Error :^(', error);
-  });
-}
-subscribeButton.addEventListener('click', function() {
-  if (isSubscribed) {
-    unsubscribe();
-  } else {
-    subscribe();
-  }
 });
-function subscribe() {
-  reg.pushManager.subscribe({userVisibleOnly: true}).
-  then(function(pushSubscription){
-    sub = pushSubscription;
-    console.log('Subscribed! Endpoint:', sub.endpoint);
-    subscribeButton.textContent = 'Unsubscribe';
-    isSubscribed = true;
-  });
-}
-function unsubscribe() {
-  sub.unsubscribe().then(function(event) {
-    subscribeButton.textContent = 'Subscribe';
-    console.log('Unsubscribed!', event);
-    isSubscribed = false;
-  }).catch(function(error) {
-    console.log('Error unsubscribing', error);
-    subscribeButton.textContent = 'Subscribe';
-  });
-}
 
 
-
-});
 
 

@@ -1,0 +1,7 @@
+.idea
+chrome/app/bower_components
+web-fsg/node_modules
+npm-debug.log
+public
+.DS_Store
+coverage

@@ -87,10 +87,18 @@
         };
 
         this.login = function (credentials) {
+            // credentials = {email: "me@me.com", password: "123"}
             return $http.post('/login', credentials)
                 .then(onSuccessfulLogin)
                 .catch(function () {
                     return $q.reject({ message: 'Invalid login credentials.' });
+                });
+        };
+
+        this.signup = function (signupInfo) {
+            return $http.post('/signup', signupInfo)
+                .catch(function () {
+                    return $q.reject({ message: 'Invalid sign up credentials.' });
                 });
         };
 

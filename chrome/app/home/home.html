@@ -1,0 +1,13 @@
+<p>This is the partial for home.</p>
+<p>
+  Showing of 'interpolate' filter:
+  {{ 'Current version is v%VERSION%.' | interpolate }}
+</p>
+
+<p>
+  {{loggedInUser}}
+</p>
+<div ng-repeat="image in allImages">
+    <img ng-src="{{image.image}}">
+</div>
+

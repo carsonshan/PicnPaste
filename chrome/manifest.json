@@ -7,7 +7,7 @@
 
   "browser_action": {
    "default_icon": "icons/bar_icon_camera.png",
-   "default_popup": "signin.html",
+   "default_popup": "app/index.html",
    "default_title": "Your Images will appear here!!"
   },
   "permissions": [

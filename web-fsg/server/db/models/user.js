@@ -4,6 +4,9 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 
 var schema = new mongoose.Schema({
+    name: {
+        type: String
+    },
     email: {
         type: String
     },
@@ -51,6 +54,8 @@ schema.pre('save', function (next) {
         this.salt = this.constructor.generateSalt();
         this.password = this.constructor.encryptPassword(this.password, this.salt);
     }
+
+    console.log("passwords salts", this.password, this.salt)
 
     next();
 
